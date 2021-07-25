@@ -69,9 +69,6 @@ class _AirChatAppWidgetState extends State<AirChatAppWidget> {
             ),
           )),
           actions: [
-            PressableIcon(
-                icon: Icon(CustomIcons.SEARCH_ICON), onPress: _pressSearchIcon),
-            Padding(padding: EdgeInsets.only(right: 18.0)),
             PopupMenuButton(
                 icon: Icon(CustomIcons.PLUS_ICON),
                 captureInheritedThemes: false,
