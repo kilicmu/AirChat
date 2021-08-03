@@ -1,6 +1,5 @@
 import 'package:AirChat/widgets/SearchBox.dart';
 import 'package:flutter/material.dart';
-import 'package:AirChat/widgets/PressableIcon.dart';
 import 'package:AirChat/assets/consts.dart';
 
 class PageDescribeData {
@@ -35,8 +34,6 @@ class _AirChatAppWidgetState extends State<AirChatAppWidget> {
   List<BottomNavigationBarItem> _renderNavigationItems() => widget.pageDescribes
       .map((e) => BottomNavigationBarItem(icon: e.icon, label: e.label))
       .toList();
-
-  void _pressSearchIcon() {}
 
   @override
   Widget build(BuildContext context) {

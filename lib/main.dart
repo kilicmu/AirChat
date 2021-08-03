@@ -1,36 +1,37 @@
 import 'package:AirChat/layouts/AirChatAppWidget.dart';
 import 'package:AirChat/assets/consts.dart';
+import 'package:AirChat/pages/ChatPage.dart';
+import 'package:AirChat/views/SessionsView.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(AirChatApp());
 }
 
-class MyApp extends StatelessWidget {
+class AirChatApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return MaterialApp(routes: {
+      'chat': (context) => ChatPage(),
+      '/': (context) => AirChatHome(),
+    });
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+class AirChatHome extends StatefulWidget {
+  AirChatHome({Key key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _AirChatHomeState createState() => _AirChatHomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _AirChatHomeState extends State<AirChatHome> {
   final List<PageDescribeData> _pageDescribes = [
     PageDescribeData(
         label: 'session',
         icon: Icon(CustomIcons.PEOPLES_ICON),
-        page: Container(child: Text('page1'))),
+        page: SessionsView()),
     PageDescribeData(
         label: 'applications',
         icon: Icon(CustomIcons.APPS_ICON),
