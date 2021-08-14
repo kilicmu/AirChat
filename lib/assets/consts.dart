@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ThemeColors {
   static const TOOLBAR_COLOR = Color.fromRGBO(111, 152, 232, 1.0);
-  static const NAVITEM_SELECTED_COLOR = Color.fromRGBO(5, 0, 255, 1);
+  static const NAVITEM_SELECTED_COLOR = Color.fromRGBO(5, 0, 178, 0.6);
   static const NAVITEM_UNSELECTED_COLOR = Color.fromRGBO(255, 255, 255, 1);
   static const SEARCH_AREA_COLOR = Color.fromRGBO(89, 120, 180, 1);
 }

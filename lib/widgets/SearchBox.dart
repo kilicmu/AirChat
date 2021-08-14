@@ -14,7 +14,6 @@ class SearchBox extends StatefulWidget implements PreferredSizeWidget {
   _SearchBoxState createState() => _SearchBoxState();
 
   @override
-  // TODO: implement preferredSize
   Size get preferredSize => Size.fromHeight(this.height);
 }
 

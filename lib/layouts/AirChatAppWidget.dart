@@ -36,8 +36,6 @@ class _AirChatAppWidgetState extends State<AirChatAppWidget> {
       .map((e) => BottomNavigationBarItem(icon: e.icon, label: e.label))
       .toList();
 
-  void _pressSearchIcon() {}
-
   @override
   Widget build(BuildContext context) {
     Size mediaSize = MediaQuery.of(context).size;
@@ -69,12 +67,10 @@ class _AirChatAppWidgetState extends State<AirChatAppWidget> {
             ),
           )),
           actions: [
-            PressableIcon(
-                icon: Icon(CustomIcons.SEARCH_ICON), onPress: _pressSearchIcon),
             Padding(padding: EdgeInsets.only(right: 18.0)),
             PopupMenuButton(
                 icon: Icon(CustomIcons.PLUS_ICON),
-                captureInheritedThemes: false,
+                // captureInheritedThemes: false,
                 offset: Offset(0, 54.0),
                 itemBuilder: (BuildContext ctx) =>
                     [PopupMenuItem(child: Text('hello'))])
