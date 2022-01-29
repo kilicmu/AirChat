@@ -38,6 +38,7 @@ class _AirChatAppWidgetState extends State<AirChatAppWidget> {
   @override
   Widget build(BuildContext context) {
     Size mediaSize = MediaQuery.of(context).size;
+    double titleBarHeight = mediaSize.height * 0.2;
     void _navigateTo(idx) {
       setState(() {
         _currentIndex = idx;
@@ -62,19 +63,19 @@ class _AirChatAppWidgetState extends State<AirChatAppWidget> {
             child: CircleAvatar(
               radius: 18.0,
               backgroundImage: NetworkImage(
-                  "https://book.flutterchina.club/assets/img/2-3.c20b3236.png"),
+                  "https://i1.hdslb.com/bfs/face/0d9d456607b880d2767513dcf65f43c9d82dadea.jpg@120w_120h_1c_1s.webp"),
             ),
           )),
           actions: [
             PopupMenuButton(
                 icon: Icon(CustomIcons.PLUS_ICON),
-                captureInheritedThemes: false,
+                // captureInheritedThemes: false,
                 offset: Offset(0, 54.0),
                 itemBuilder: (BuildContext ctx) =>
                     [PopupMenuItem(child: Text('hello'))])
           ],
           backgroundColor: ThemeColors.TOOLBAR_COLOR,
-          toolbarHeight: 108.0,
+          toolbarHeight: titleBarHeight,
           bottom: SearchBox(),
         ),
         body: PageView(
