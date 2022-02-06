@@ -28,14 +28,14 @@ class AirChatAppWidget extends StatefulWidget {
 class _AirChatAppWidgetState extends State<AirChatAppWidget> {
   final PageController _pageController = new PageController();
 
-  int _currentIndex = 0;
-  List<Widget> _renderPages() =>
-      widget.pageDescribes.map((e) => e.page).toList();
+  int _currentPageIdx = 0;
+
   List<BottomNavigationBarItem> _renderNavigationItems() => widget.pageDescribes
       .map((e) => BottomNavigationBarItem(icon: e.icon, label: e.label))
       .toList();
 
   bool _searchBoxVisitable;
+  bool bottomSheetVisible = false;
 
   final GlobalKey<ScaffoldState> _rootScaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -51,7 +51,9 @@ class _AirChatAppWidgetState extends State<AirChatAppWidget> {
     if (state == null) {
       return;
     }
-
+    setState(() {
+      bottomSheetVisible = true;
+    });
     state.showBottomSheet((context) {
       return Container(
           height: 400,
@@ -59,9 +61,29 @@ class _AirChatAppWidgetState extends State<AirChatAppWidget> {
           child: Center(
               child: ElevatedButton(
                   child: Text('close'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  })));
+                  onPressed: _closeBottomSheet(context))));
+    });
+  }
+
+  _closeBottomSheet(ctx) {
+    return () {
+      if (!bottomSheetVisible) {
+        return;
+      }
+      Navigator.pop(ctx);
+      setState(() {
+        bottomSheetVisible = false;
+      });
+    };
+  }
+
+  Widget _renderPage() {
+    return widget.pageDescribes[_currentPageIdx].page;
+  }
+
+  void _navigateTo(idx) {
+    setState(() {
+      _currentPageIdx = idx;
     });
   }
 
@@ -73,23 +95,6 @@ class _AirChatAppWidgetState extends State<AirChatAppWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Size mediaSize = MediaQuery.of(context).size;
-    double titleBarHeight = mediaSize.height * 0.2;
-    void _navigateTo(idx) {
-      setState(() {
-        _currentIndex = idx;
-      });
-      final jumpOffset = mediaSize.width * idx;
-      _pageController.jumpTo(jumpOffset);
-    }
-
-    void _onPageChanged(idx) {
-      setState(() {
-        _currentIndex = idx;
-        _searchBoxVisitable = false;
-      });
-    }
-
     return Scaffold(
       key: _rootScaffoldKey,
       appBar: AppBar(
@@ -99,7 +104,7 @@ class _AirChatAppWidgetState extends State<AirChatAppWidget> {
                 child: CircleAvatar(
                   radius: 18.0,
                   backgroundImage: NetworkImage(
-                      "https://book.flutterchina.club/assets/img/2-3.c20b3236.png"),
+                      "https://i0.hdslb.com/bfs/face/488371ac23b8dc66ff8615c2f5071e8761b04368.jpg@240w_240h_1c_1s.webp"),
                 ))),
         actions: [
           IconButton(
@@ -108,40 +113,10 @@ class _AirChatAppWidgetState extends State<AirChatAppWidget> {
               setState(() {
                 _searchBoxVisitable = !this._searchBoxVisitable;
               });
+
+              // 回收键盘
+              FocusScope.of(context).requestFocus(FocusNode());
             },
-<<<<<<< HEAD
-            child: CircleAvatar(
-              radius: 18.0,
-              backgroundImage: NetworkImage(
-                  "https://i1.hdslb.com/bfs/face/0d9d456607b880d2767513dcf65f43c9d82dadea.jpg@120w_120h_1c_1s.webp"),
-            ),
-          )),
-          actions: [
-            PopupMenuButton(
-                icon: Icon(CustomIcons.PLUS_ICON),
-                // captureInheritedThemes: false,
-                offset: Offset(0, 54.0),
-                itemBuilder: (BuildContext ctx) =>
-                    [PopupMenuItem(child: Text('hello'))])
-          ],
-          backgroundColor: ThemeColors.TOOLBAR_COLOR,
-          toolbarHeight: titleBarHeight,
-          bottom: SearchBox(),
-        ),
-        body: PageView(
-          controller: _pageController,
-          onPageChanged: _onPageChanged,
-          children: _renderPages(),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          items: _renderNavigationItems(),
-          onTap: _navigateTo,
-          selectedItemColor: ThemeColors.NAVITEM_SELECTED_COLOR,
-          unselectedItemColor: ThemeColors.NAVITEM_UNSELECTED_COLOR,
-          backgroundColor: ThemeColors.TOOLBAR_COLOR,
-        ));
-=======
           ),
           Padding(padding: EdgeInsets.only(right: 8.0)),
           PopupMenuButton(
@@ -154,31 +129,25 @@ class _AirChatAppWidgetState extends State<AirChatAppWidget> {
         bottom: SearchBox(visitable: _searchBoxVisitable),
       ),
       drawer: new Drawer(),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: _onPageChanged,
-        children: _renderPages(),
+      body: Center(
+        child: _renderPage(),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ThemeColors.ACTION_BUTTON_COLOR,
-        onPressed: _openBottomSheet,
-        child: Icon(CustomIcons.VIDEO_ICON),
-      ),
+      floatingActionButton: Visibility(
+          child: FloatingActionButton(
+            backgroundColor: ThemeColors.ACTION_BUTTON_COLOR,
+            onPressed: _openBottomSheet,
+            child: Icon(CustomIcons.VIDEO_ICON),
+          ),
+          visible: !bottomSheetVisible),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
+        currentIndex: _currentPageIdx,
         items: _renderNavigationItems(),
         onTap: _navigateTo,
         selectedItemColor: ThemeColors.NAVITEM_SELECTED_COLOR,
         unselectedItemColor: ThemeColors.NAVITEM_UNSELECTED_COLOR,
         backgroundColor: ThemeColors.TOOLBAR_COLOR,
       ),
-      // bottomSheet: BottomSheet(builder: (context) {
-      //   return Container(height: 20, child: Text('hello'));
-      // }, onClosing: () {
-      //   print(1);
-      // })
     );
->>>>>>> f22f3a98b4d165f23a02c50639591290fdac9e16
   }
 }

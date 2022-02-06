@@ -1,18 +1,14 @@
 import 'package:AirChat/assets/consts.dart';
+import 'package:AirChat/widgets/PressableIcon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class SearchBox extends StatefulWidget implements PreferredSizeWidget {
-  const SearchBox(
-      {Key key,
-      @required this.visitable,
-      this.height = 54.0,
-      this.textEditingController})
+  const SearchBox({Key key, @required this.visitable, this.height = 54.0})
       : super(key: key);
 
   final double height;
   final bool visitable;
-  final TextEditingController textEditingController;
 
   @override
   _SearchBoxState createState() => _SearchBoxState();
@@ -27,8 +23,29 @@ class SearchBox extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _SearchBoxState extends State<SearchBox> {
+  var textEditingController = null;
+
+  @override
+  void initState() {
+    super.initState();
+    textEditingController = new TextEditingController(text: '');
+  }
+
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _cleanInputedSearchText() {
+      print(textEditingController);
+      if (textEditingController == null) {
+        return;
+      }
+      textEditingController.text = '';
+    }
+
     return Offstage(
         offstage: !widget.visitable,
         child: Container(
@@ -39,14 +56,27 @@ class _SearchBoxState extends State<SearchBox> {
                 decoration: BoxDecoration(
                     color: ThemeColors.SEARCH_AREA_COLOR,
                     borderRadius: BorderRadius.circular(4.0)),
-                child: TextField(
-                  style: TextStyle(
-                      fontSize: 16.0, height: 1.0, color: Colors.white),
-                  cursorColor: Colors.grey,
-                  decoration: InputDecoration(
-                      hintText: 'search',
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none),
-                ))));
+                child: Stack(
+                    alignment: Alignment.center,
+                    fit: StackFit.expand,
+                    children: [
+                      TextField(
+                        style: TextStyle(
+                            fontSize: 16.0, height: 1.0, color: Colors.black),
+                        cursorColor: Colors.grey[400],
+                        controller: textEditingController,
+                        decoration: InputDecoration(
+                          hintText: 'search',
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                        ),
+                      ),
+                      Positioned(
+                          right: 1,
+                          child: PressableIcon(
+                            icon: Icon(Icons.close_sharp),
+                            onPress: _cleanInputedSearchText,
+                          ))
+                    ]))));
   }
 }

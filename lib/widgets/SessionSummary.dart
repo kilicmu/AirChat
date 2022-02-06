@@ -68,22 +68,19 @@ String timeTransformer(int timestemp) {
 }
 
 class _SessionSummaryState extends State<SessionSummary> {
+  final headerRadio = 24.0;
   @override
   Widget build(BuildContext context) {
     final session = widget.session;
     final label = session.sessionLabel;
     final recentlyMessage = session.recentlyMessage ?? '';
     final finalTime = timeTransformer(session.finalTime) ?? '';
+    
     return GestureDetector(
-        onTap: () => Navigator.pushNamed(context, "chat"),
+        onTap: () => Navigator.of(context).pushNamed("chat", arguments: session),
         child: SingleChildScrollView(
             child: Container(
                 height: 68,
-                decoration: BoxDecoration(
-                  border: Border.symmetric(
-                      horizontal:
-                          BorderSide(color: Colors.grey[300], width: 0.5)),
-                ),
                 child: Row(
                   children: [
                     Expanded(
@@ -92,9 +89,9 @@ class _SessionSummaryState extends State<SessionSummary> {
                             child: Container(
                           decoration: BoxDecoration(
                               color: Colors.cyan,
-                              borderRadius: BorderRadius.circular(28)),
-                          height: 56,
-                          width: 56,
+                              borderRadius: BorderRadius.circular(headerRadio)),
+                          height: headerRadio * 2,
+                          width: headerRadio * 2,
                         ))),
                     Expanded(
                         flex: 6,
@@ -111,7 +108,7 @@ class _SessionSummaryState extends State<SessionSummary> {
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.w600)),
                                 ),
-                                Padding(padding: EdgeInsets.only(top: 7.4)),
+                                Padding(padding: EdgeInsets.only(top: 7.2)),
                                 Text(recentlyMessage,
                                     overflow: TextOverflow.ellipsis)
                               ],
@@ -124,5 +121,18 @@ class _SessionSummaryState extends State<SessionSummary> {
                                     color: Colors.grey, fontSize: 12.0)))),
                   ],
                 ))));
+  }
+}
+
+
+class SessionDivider extends StatelessWidget {
+  const SessionDivider({ Key key }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+  const DIVIDER_HEIGHT = 1.0;
+    return Divider(
+      height: DIVIDER_HEIGHT,
+      color: Colors.grey
+    );
   }
 }

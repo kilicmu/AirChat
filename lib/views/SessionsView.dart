@@ -21,9 +21,9 @@ class SessionsView extends StatefulWidget {
 class _SessionsViewState extends State<SessionsView> {
   @override
   Widget build(BuildContext context) {
-    List<SessionSummary> _renderSessionSummaryList() {
+    List<Widget> _renderSessionSummaryList() {
       return [
-        SessionSummary()
+        SessionSummary(),
       ];
     }
 
